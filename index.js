@@ -1,35 +1,36 @@
 var queryURL = "stations.json";
 var map;
 var powderResponse = [];
+
 $.ajax({
-url: queryURL,
-method: "GET"
+    url: queryURL,
+    method: "GET"
 }).then(function (response) {
-powderResponse = response;
-console.log(powderResponse)
+    powderResponse = response;
+    console.log(powderResponse)
 
 }).then(function GetMap() {
-map = new Microsoft.Maps.Map('#myMap', {
+    map = new Microsoft.Maps.Map('#myMap', {
 });
 
-for (let i = 0; i < powderResponse.length; i++) {
-    var pin = new Microsoft.Maps.Pushpin({
-        latitude: powderResponse[i].location.lat,
-        longitude: powderResponse[i].location.lng,
-    });
+    for (let i = 0; i < powderResponse.length; i++) {
+        var pin = new Microsoft.Maps.Pushpin({
+            latitude: powderResponse[i].location.lat,
+            longitude: powderResponse[i].location.lng,
+        });
 
-    // meta data stored in each pin
-    pin.metadata = {
-        title: powderResponse[i].name,
-        elevation: powderResponse[i].elevation,
-        id: powderResponse[i].triplet
+        // meta data stored in each pin
+        pin.metadata = {
+            title: powderResponse[i].name,
+            elevation: powderResponse[i].elevation,
+            id: powderResponse[i].triplet
+        }
+
+        // adds event handler function to each pin
+        Microsoft.Maps.Events.addHandler(pin, 'click', pushpinClicked);
+        // pushes pin to map
+        map.entities.push(pin);
     }
-
-    // adds event handler function to each pin
-    Microsoft.Maps.Events.addHandler(pin, 'click', pushpinClicked);
-    // pushes pin to map
-    map.entities.push(pin);
-}
 
 
 })
@@ -43,8 +44,7 @@ function pushpinClicked(e) {
     $(".id").text("ID: " + e.target.id)
 
     // API call for station pin that was clicked
-    var snowURL = "http://api.powderlin.es/station/" + e.target.metadata.id + "?start_date=2013-10-01" + "&end_date=2021-01-20";
-    // https://cors-anywhere.herokuapp.com/
+    var snowURL = "https://cors-proxy-server-pfvatterott.herokuapp.com/?q=http://api.powderlin.es/station/" + e.target.metadata.id + "?start_date=2013-10-01" + "&end_date=2021-01-22";
     $.ajax({
         url: snowURL,
         method: "GET"

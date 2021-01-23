@@ -1,4 +1,4 @@
-var queryURL = "stations.json";
+var queryURL = "https://cors-proxy-server-pfvatterott.herokuapp.com/?q=http://api.powderlin.es/stations";
 var map;
 var powderResponse = [];
 
@@ -44,19 +44,25 @@ function pushpinClicked(e) {
     $(".id").text("ID: " + e.target.id)
 
     // API call for station pin that was clicked
-    var snowURL = "https://cors-proxy-server-pfvatterott.herokuapp.com/?q=http://api.powderlin.es/station/" + e.target.metadata.id + "?start_date=2013-10-01" + "&end_date=2021-01-22";
+    var snowURL = "https://cors-proxy-server-pfvatterott.herokuapp.com/?q=http://api.powderlin.es/station/" + e.target.metadata.id + "?start_date=2013-10-01" + "&end_date=" + moment().format("YYYY-MM-DD");
     $.ajax({
         url: snowURL,
         method: "GET"
     }).then(function (stationResponse) {
         console.log(stationResponse)
-        $(".date").text("Date: " + stationResponse.data[stationResponse.data.length - 1].Date);
-        $(".snow-depth").text("Snow Depth: " + stationResponse.data[stationResponse.data.length - 1]["Snow Depth (in)"] + " inches");
+        $(".date").text("Date: " + moment().format("YYYY-MM-DD"));
+        $(".snow-depth").text("Snow Depth: " + stationResponse.data[stationResponse.data.length - 2]["Snow Depth (in)"] + " inches");
 
+
+        // Creates data arrays for charts
         var dataArray2013 = [];
         var dataArray2014 = [];
         var dataArray2020 = [];
         var dataArray2019 = [];
+        // Sets variables for averages
+        var totalSnow = 0;
+        var numberOfInstances = 0;
+
         for (let i = 0; i < stationResponse.data.length; i++) {
             if (moment(stationResponse.data[i].Date).isBetween('2013-10-01', '2014-06-30')) {
                 if (moment(stationResponse.data[i].Date).isBetween('2013-10-01', '2014-01-01')) {
@@ -89,12 +95,26 @@ function pushpinClicked(e) {
                 else {
                     dataArray2019.push({ y: parseInt(stationResponse.data[i]["Snow Depth (in)"]), x: new Date("2002-" + stationResponse.data[i].Date.slice(5)) })
                 }
+            };
+
+            // to find average for current day
+            if (stationResponse.data[i].Date.slice(5) == moment().format("MM-DD")) {
+                totalSnow = totalSnow + parseInt(stationResponse.data[i]["Snow Depth (in)"]);
+                numberOfInstances = numberOfInstances + 1;
             }
-
-
+            
+            // for (let j = 0; j < stationResponse.data.length; j++) {
+            //     if (moment(stationResponse.data[i].Date.slice(5)).isSame("2020-01-20")) {
+            //         var totalSnow = totalSnow + parseInt(stationResponse.data[j]["Snow Depth (in)"]);
+            //         var numberOfInstances = numberOfInstances + 1;
+            //         var averageSnow = totalSnow / numberOfInstances;
+            //         // console.log(stationResponse.data[i].Date + " and " + stationResponse.data[j].Date + "are the same");
+            //         averageArray.push({ y: averageSnow, x: "2002-" + stationResponse.data[i].Date.slice(5) });
+            //         console.log(averageArray);
+            //     }
+                
+            // }
         }
-        console.log(dataArray2013)
-
 
         //Create Chart
         var chart = new CanvasJS.Chart("chartContainer", {

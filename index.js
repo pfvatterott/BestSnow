@@ -1,13 +1,12 @@
 var queryURL = "https://cors-proxy-server-pfvatterott.herokuapp.com/?q=http://api.powderlin.es/stations";
 var map;
-var powderResponse = [];
-var pin;
 
 $.ajax({
     url: queryURL,
     method: "GET"
 }).then(function (response) {
     powderResponse = response;
+    console.log(powderResponse)
 }).then(function GetMap() {
     map = new Microsoft.Maps.Map('#myMap', {
     });
@@ -51,7 +50,6 @@ $.ajax({
         // sets pin color
         function setPin(isAboveAverage, isBelowAverage) {
             if (isAboveAverage === true) { //sets pin to green if above average
-                console.log("above average!")
                 var pin = new Microsoft.Maps.Pushpin({
                     latitude: powderResponse[i].location.lat,
                     longitude: powderResponse[i].location.lng,

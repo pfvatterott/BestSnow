@@ -32,7 +32,12 @@ $.ajax({
             }
 
             // snow depth from yesterday
-            var todaySnow = averageSnow.data[averageSnow.data.length - 1]["Snow Depth (in)"];
+            var todaySnow = 0;
+            if (averageSnow.data[averageSnow.data.length - 1]["Snow Depth (in)"] === null) {
+                todaySnow = 0;
+            } else {
+                todaySnow = averageSnow.data[averageSnow.data.length - 1]["Snow Depth (in)"];
+            }
             // compares yesterday snow to historical snow averages then calls setPin function to set color
             if (todaySnow > totalSnow / numberOfInstances) {
                 isAboveAverage = true;

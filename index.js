@@ -6,7 +6,6 @@ $.ajax({
     method: "GET"
 }).then(function (response) {
     powderResponse = response;
-    console.log(powderResponse)
 }).then(function GetMap() {
     map = new Microsoft.Maps.Map('#myMap', {
     });
@@ -23,27 +22,27 @@ $.ajax({
         }).then(function (averageSnow) {
             var totalSnow = 0;
             var numberOfInstances = 0;
-            // iterates through each json file
+            // iterates through each station json file
             for (let k = 0; k < averageSnow.data.length; k++) {
                 // if date from json file equals date from yesterday (no year)
-                if (averageSnow.data[k].Date.slice(5) == averageSnow.data[averageSnow.data.length - 2].Date.slice(5)) {
+                if (averageSnow.data[k].Date.slice(5) == averageSnow.data[averageSnow.data.length - 1].Date.slice(5)) {
                     totalSnow = totalSnow + parseInt(averageSnow.data[k]["Snow Depth (in)"]);
                     numberOfInstances = numberOfInstances + 1;
                 };
             }
 
             // snow depth from yesterday
-            var todaySnow = averageSnow.data[averageSnow.data.length - 2]["Snow Depth (in)"];
+            var todaySnow = averageSnow.data[averageSnow.data.length - 1]["Snow Depth (in)"];
             // compares yesterday snow to historical snow averages then calls setPin function to set color
             if (todaySnow > totalSnow / numberOfInstances) {
                 isAboveAverage = true;
                 isBelowAverage = false;
-                setPin(isAboveAverage, isBelowAverage); //see line 52 for function
+                setPin(isAboveAverage, isBelowAverage); 
 
             } else if (todaySnow < totalSnow / numberOfInstances) {
                 isBelowAverage = true;
                 isAboveAverage = false;
-                setPin(isAboveAverage, isBelowAverage); //see line 52 for function
+                setPin(isAboveAverage, isBelowAverage); 
             }
         })
 

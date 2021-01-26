@@ -1,57 +1,110 @@
 var queryURL = "https://cors-proxy-server-pfvatterott.herokuapp.com/?q=http://api.powderlin.es/stations";
 var map;
-var powderResponse = [];
 
 $.ajax({
     url: queryURL,
     method: "GET"
 }).then(function (response) {
     powderResponse = response;
-    console.log(powderResponse)
-
 }).then(function GetMap() {
     map = new Microsoft.Maps.Map('#myMap', {
-});
+    });
+    // sets to false as default
+    var isAboveAverage = false;
+    var isBelowAverage = false;
 
+    // creates URL to pull from saved json files
     for (let i = 0; i < powderResponse.length; i++) {
-        var pin = new Microsoft.Maps.Pushpin({
-            latitude: powderResponse[i].location.lat,
-            longitude: powderResponse[i].location.lng,
-        });
+        var pinURL = "data/input" + powderResponse[i].name + ".json";
+        $.ajax({
+            url: pinURL,
+            method: "GET"
+        }).then(function (averageSnow) {
+            var totalSnow = 0;
+            var numberOfInstances = 0;
+            // iterates through each station json file
+            for (let k = 0; k < averageSnow.data.length; k++) {
+                // if date from json file equals date from yesterday (no year)
+                if (averageSnow.data[k].Date.slice(5) == averageSnow.data[averageSnow.data.length - 1].Date.slice(5)) {
+                    totalSnow = totalSnow + parseInt(averageSnow.data[k]["Snow Depth (in)"]);
+                    numberOfInstances = numberOfInstances + 1;
+                };
+            }
 
-        // meta data stored in each pin
-        pin.metadata = {
-            title: powderResponse[i].name,
-            elevation: powderResponse[i].elevation,
-            id: powderResponse[i].triplet
+            // snow depth from yesterday
+            var todaySnow = averageSnow.data[averageSnow.data.length - 1]["Snow Depth (in)"];
+            // compares yesterday snow to historical snow averages then calls setPin function to set color
+            if (todaySnow > totalSnow / numberOfInstances) {
+                isAboveAverage = true;
+                isBelowAverage = false;
+                setPin(isAboveAverage, isBelowAverage); 
+
+            } else if (todaySnow < totalSnow / numberOfInstances) {
+                isBelowAverage = true;
+                isAboveAverage = false;
+                setPin(isAboveAverage, isBelowAverage); 
+            }
+        })
+
+        // sets pin color
+        function setPin(isAboveAverage, isBelowAverage) {
+            if (isAboveAverage === true) { //sets pin to green if above average
+                var pin = new Microsoft.Maps.Pushpin({
+                    latitude: powderResponse[i].location.lat,
+                    longitude: powderResponse[i].location.lng,
+                },
+                    {
+                        color: 'green'
+                    });
+                // meta data stored in each pin
+                pin.metadata = {
+                    title: powderResponse[i].name,
+                    elevation: powderResponse[i].elevation,
+                    id: powderResponse[i].triplet,
+                }
+                // adds event handler function to each pin
+                Microsoft.Maps.Events.addHandler(pin, 'click', pushpinClicked);
+                // pushes pin to map
+                map.entities.push(pin);
+            }
+            else if (isBelowAverage === true) { //sets pin to red if below average
+                var pin = new Microsoft.Maps.Pushpin({
+                    latitude: powderResponse[i].location.lat,
+                    longitude: powderResponse[i].location.lng,
+                },
+                    {
+                        color: 'red'
+                    });
+                // meta data stored in each pin
+                pin.metadata = {
+                    title: powderResponse[i].name,
+                    elevation: powderResponse[i].elevation,
+                    id: powderResponse[i].triplet,
+                }
+                // adds event handler function to each pin
+                Microsoft.Maps.Events.addHandler(pin, 'click', pushpinClicked);
+                // pushes pin to map
+                map.entities.push(pin);
+            }
         }
-
-        // adds event handler function to each pin
-        Microsoft.Maps.Events.addHandler(pin, 'click', pushpinClicked);
-        // pushes pin to map
-        map.entities.push(pin);
     }
 
-
 })
-
 // Event Listener
 function pushpinClicked(e) {
-    console.log(e.target.metadata.id)
     // Displaying text in DOM
     $(".name").text("name: " + e.target.metadata.title)
     $(".elevation").text("elevation: " + e.target.metadata.elevation)
     $(".id").text("ID: " + e.target.id)
 
     // API call for station pin that was clicked
-    var snowURL = "https://cors-proxy-server-pfvatterott.herokuapp.com/?q=http://api.powderlin.es/station/" + e.target.metadata.id + "?start_date=2013-10-01" + "&end_date=" + moment().format("YYYY-MM-DD");
+    var snowURL = "data/input" + e.target.metadata.title + ".json"
     $.ajax({
         url: snowURL,
         method: "GET"
     }).then(function (stationResponse) {
-        console.log(stationResponse)
         $(".date").text("Date: " + moment().format("YYYY-MM-DD"));
-        $(".snow-depth").text("Snow Depth: " + stationResponse.data[stationResponse.data.length - 2]["Snow Depth (in)"] + " inches");
+        $(".snow-depth").text("Snow Depth: " + stationResponse.data[stationResponse.data.length - 1]["Snow Depth (in)"] + " inches");
 
 
         // Creates data arrays for charts
@@ -59,9 +112,6 @@ function pushpinClicked(e) {
         var dataArray2014 = [];
         var dataArray2020 = [];
         var dataArray2019 = [];
-        // Sets variables for averages
-        var totalSnow = 0;
-        var numberOfInstances = 0;
 
         for (let i = 0; i < stationResponse.data.length; i++) {
             if (moment(stationResponse.data[i].Date).isBetween('2013-10-01', '2014-06-30')) {
@@ -96,24 +146,6 @@ function pushpinClicked(e) {
                     dataArray2019.push({ y: parseInt(stationResponse.data[i]["Snow Depth (in)"]), x: new Date("2002-" + stationResponse.data[i].Date.slice(5)) })
                 }
             };
-
-            // to find average for current day
-            if (stationResponse.data[i].Date.slice(5) == moment().format("MM-DD")) {
-                totalSnow = totalSnow + parseInt(stationResponse.data[i]["Snow Depth (in)"]);
-                numberOfInstances = numberOfInstances + 1;
-            }
-            
-            // for (let j = 0; j < stationResponse.data.length; j++) {
-            //     if (moment(stationResponse.data[i].Date.slice(5)).isSame("2020-01-20")) {
-            //         var totalSnow = totalSnow + parseInt(stationResponse.data[j]["Snow Depth (in)"]);
-            //         var numberOfInstances = numberOfInstances + 1;
-            //         var averageSnow = totalSnow / numberOfInstances;
-            //         // console.log(stationResponse.data[i].Date + " and " + stationResponse.data[j].Date + "are the same");
-            //         averageArray.push({ y: averageSnow, x: "2002-" + stationResponse.data[i].Date.slice(5) });
-            //         console.log(averageArray);
-            //     }
-                
-            // }
         }
 
         //Create Chart
@@ -166,14 +198,9 @@ function pushpinClicked(e) {
                 dataPoints: dataArray2019,
                 xValueFormatString: "DD-MMM",
             }
-
-
             ]
         });
         chart.render();
-
-
-
     })
 }
 

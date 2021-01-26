@@ -1,4 +1,4 @@
-var queryURL = "https://cors-proxy-server-pfvatterott.herokuapp.com/?q=http://api.powderlin.es/stations";
+var queryURL = "stations.json";
 var map;
 
 $.ajax({

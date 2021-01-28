@@ -11,8 +11,13 @@ if (savedPinList =! null) {
 function generatePinList() {
     savedPinList = JSON.parse(localStorage.getItem("clickedPins"))
 
-    $(".samplebutton").text(savedPinList[0].pin)
-    // add code here to generate list based on local storage
+    if (savedPinList === null) {
+        return
+    }
+    else {
+        $(".samplebutton").text(savedPinList[0].pin).css("color", savedPinList[0].color)
+        // add code here to generate list based on local storage
+    }
 }
 
 $.ajax({
@@ -96,7 +101,8 @@ $.ajax({
                     elevation: powderResponse[i].elevation,
                     id: powderResponse[i].triplet,
                     lat: powderResponse[i].location.lat,
-                    lng: powderResponse[i].location.lng
+                    lng: powderResponse[i].location.lng,
+                    color: '#084593'
                 }
                 // adds event handler function to each pin
                 Microsoft.Maps.Events.addHandler(pin, 'click', pushpinClicked);
@@ -117,7 +123,8 @@ $.ajax({
                     elevation: powderResponse[i].elevation,
                     id: powderResponse[i].triplet,
                     lat: powderResponse[i].location.lat,
-                    lng: powderResponse[i].location.lng
+                    lng: powderResponse[i].location.lng,
+                    color: '#C6DBEF'
                 }
                 // adds event handler function to each pin
                 Microsoft.Maps.Events.addHandler(pin, 'click', pushpinClicked);
@@ -138,7 +145,8 @@ $.ajax({
                     elevation: powderResponse[i].elevation,
                     id: powderResponse[i].triplet,
                     lat: powderResponse[i].location.lat,
-                    lng: powderResponse[i].location.lng
+                    lng: powderResponse[i].location.lng,
+                    color: '#6BAED6'
                 }
                 // adds event handler function to each pin
                 Microsoft.Maps.Events.addHandler(pin, 'click', pushpinClicked);
@@ -164,18 +172,16 @@ $(".samplebutton").on("click", function(){
 
 // Event Listener
 function pushpinClicked(e) {
-    console.log(e.target.metadata.lat)
 
     // Save to local storage then generate list
     savedPinList = JSON.parse(localStorage.getItem("clickedPins"));
     if (savedPinList != null) {
-        savedPinList.push({ pin: e.target.metadata.title, lat: e.target.metadata.lat, lng: e.target.metadata.lng});
+        savedPinList.push({ pin: e.target.metadata.title, lat: e.target.metadata.lat, lng: e.target.metadata.lng, color: e.target.metadata.color});
         localStorage.setItem("clickedPins", JSON.stringify(savedPinList));
-        console.log(savedPinList[0].pin)
         generatePinList(savedPinList);
     }
     else {
-        savedPinList = ([{ pin: e.target.metadata.title, lat: e.target.metadata.lat, lng: e.target.metadata.lng}]);
+        savedPinList = ([{ pin: e.target.metadata.title, lat: e.target.metadata.lat, lng: e.target.metadata.lng, color: e.target.metadata.color}]);
         localStorage.setItem("clickedPins", JSON.stringify(savedPinList));
         generatePinList(savedPinList);
     }
@@ -197,27 +203,42 @@ function pushpinClicked(e) {
 
 
         // Creates data arrays for charts
-        var dataArray2013 = [];
-        var dataArray2014 = [];
-        var dataArray2020 = [];
+        var dataArray2015 = [];
+        var dataArray2016 = [];
+        var dataArray2017 = [];
+        var dataArray2018 = [];
         var dataArray2019 = [];
+        var dataArray2020 = [];
+        var current2015 = 0;
+        var current2016 = 0;
+        var current2017 = 0;
+        var current2018 = 0;
+        var current2019 = 0;
+        var current2020 = 0;
 
         for (let i = 0; i < stationResponse.data.length; i++) {
-            if (moment(stationResponse.data[i].Date).isBetween('2013-10-01', '2014-06-30')) {
-                if (moment(stationResponse.data[i].Date).isBetween('2013-10-01', '2014-01-01')) {
-                    dataArray2013.push({ y: parseInt(stationResponse.data[i]["Snow Depth (in)"]), x: new Date("2001-" + stationResponse.data[i].Date.slice(5)) }) //removed year then added 2001 or 2002 so all data aligns on graph.
+            if (moment(stationResponse.data[i].Date).isBetween('2015-10-01', '2016-06-30')) {
+                if (moment(stationResponse.data[i].Date).isBetween('2015-10-01', '2016-01-01')) {
+                    dataArray2015.push({ y: parseInt(stationResponse.data[i]["Snow Depth (in)"]), x: new Date("2001-" + stationResponse.data[i].Date.slice(5)) }) //removed year then added 2001 or 2002 so all data aligns on graph.
                 }
                 else {
-                    dataArray2013.push({ y: parseInt(stationResponse.data[i]["Snow Depth (in)"]), x: new Date("2002-" + stationResponse.data[i].Date.slice(5)) })
+                    dataArray2015.push({ y: parseInt(stationResponse.data[i]["Snow Depth (in)"]), x: new Date("2002-" + stationResponse.data[i].Date.slice(5)) })
+                };
+                if (stationResponse.data[i].Date.slice(5) == stationResponse.data[stationResponse.data.length -1].Date.slice(5)) {
+                    current2015 = stationResponse.data[i]["Snow Depth (in)"];
                 }
             }
-            else if (moment(stationResponse.data[i].Date).isBetween('2014-10-01', '2015-06-30')) {
-                if (moment(stationResponse.data[i].Date).isBetween('2014-10-01', '2015-01-01')) {
-                    dataArray2014.push({ y: parseInt(stationResponse.data[i]["Snow Depth (in)"]), x: new Date("2001-" + stationResponse.data[i].Date.slice(5)) })
+            else if (moment(stationResponse.data[i].Date).isBetween('2016-10-01', '2017-06-30')) {
+                if (moment(stationResponse.data[i].Date).isBetween('2016-10-01', '2017-01-01')) {
+                    dataArray2016.push({ y: parseInt(stationResponse.data[i]["Snow Depth (in)"]), x: new Date("2001-" + stationResponse.data[i].Date.slice(5)) })
                 }
                 else {
-                    dataArray2014.push({ y: parseInt(stationResponse.data[i]["Snow Depth (in)"]), x: new Date("2002-" + stationResponse.data[i].Date.slice(5)) })
+                    dataArray2016.push({ y: parseInt(stationResponse.data[i]["Snow Depth (in)"]), x: new Date("2002-" + stationResponse.data[i].Date.slice(5)) })
+                };
+                if (stationResponse.data[i].Date.slice(5) == stationResponse.data[stationResponse.data.length -1].Date.slice(5)) {
+                    current2016 = stationResponse.data[i]["Snow Depth (in)"];
                 }
+
             }
             else if (moment(stationResponse.data[i].Date).isBetween('2020-10-01', '2021-06-30')) {
                 if (moment(stationResponse.data[i].Date).isBetween('2020-10-01', '2021-01-01')) {
@@ -227,17 +248,42 @@ function pushpinClicked(e) {
                     dataArray2020.push({ y: parseInt(stationResponse.data[i]["Snow Depth (in)"]), x: new Date("2002-" + stationResponse.data[i].Date.slice(5)) })
                 }
             }
+            else if (moment(stationResponse.data[i].Date).isBetween('2017-10-01', '2018-06-30')) {
+                if (moment(stationResponse.data[i].Date).isBetween('2017-10-01', '2018-01-01')) {
+                    dataArray2017.push({ y: parseInt(stationResponse.data[i]["Snow Depth (in)"]), x: new Date("2001-" + stationResponse.data[i].Date.slice(5)) })
+                }
+                else {
+                    dataArray2017.push({ y: parseInt(stationResponse.data[i]["Snow Depth (in)"]), x: new Date("2002-" + stationResponse.data[i].Date.slice(5)) })
+                };
+                if (stationResponse.data[i].Date.slice(5) == stationResponse.data[stationResponse.data.length -1].Date.slice(5)) {
+                    current2017 = stationResponse.data[i]["Snow Depth (in)"];
+                }
+            }
+            else if (moment(stationResponse.data[i].Date).isBetween('2018-10-01', '2019-06-30')) {
+                if (moment(stationResponse.data[i].Date).isBetween('2018-10-01', '2019-01-01')) {
+                    dataArray2018.push({ y: parseInt(stationResponse.data[i]["Snow Depth (in)"]), x: new Date("2001-" + stationResponse.data[i].Date.slice(5)) })
+                }
+                else {
+                    dataArray2018.push({ y: parseInt(stationResponse.data[i]["Snow Depth (in)"]), x: new Date("2002-" + stationResponse.data[i].Date.slice(5)) })
+                };
+                if (stationResponse.data[i].Date.slice(5) == stationResponse.data[stationResponse.data.length -1].Date.slice(5)) {
+                    current2018 = stationResponse.data[i]["Snow Depth (in)"];
+                }
+            }
             else if (moment(stationResponse.data[i].Date).isBetween('2019-10-01', '2020-06-30')) {
                 if (moment(stationResponse.data[i].Date).isBetween('2019-10-01', '2020-01-01')) {
                     dataArray2019.push({ y: parseInt(stationResponse.data[i]["Snow Depth (in)"]), x: new Date("2001-" + stationResponse.data[i].Date.slice(5)) })
                 }
                 else {
                     dataArray2019.push({ y: parseInt(stationResponse.data[i]["Snow Depth (in)"]), x: new Date("2002-" + stationResponse.data[i].Date.slice(5)) })
+                };
+                if (stationResponse.data[i].Date.slice(5) == stationResponse.data[stationResponse.data.length -1].Date.slice(5)) {
+                    current2019 = stationResponse.data[i]["Snow Depth (in)"];
                 }
             };
         }
 
-        //Create Chart
+        //Create Line Chart
         var chart = new CanvasJS.Chart("chartContainer", {
             animationEnabled: true,
             theme: "light2",
@@ -257,26 +303,34 @@ function pushpinClicked(e) {
             data: [{
                 type: "spline",
                 indexLabelFontSize: 16,
-                name: "2013-2014",
+                name: "2015-2016",
                 showInLegend: true,
-                dataPoints: dataArray2013,
+                dataPoints: dataArray2015,
                 xValueFormatString: "DD-MMM"
 
             },
             {
                 type: "spline",
                 indexLabelFontSize: 16,
-                name: "2014-2015",
+                name: "2016-2017",
                 showInLegend: true,
-                dataPoints: dataArray2014,
+                dataPoints: dataArray2016,
                 xValueFormatString: "DD-MMM",
             },
             {
                 type: "spline",
                 indexLabelFontSize: 16,
-                name: "2020-2021",
+                name: "2017-2018",
                 showInLegend: true,
-                dataPoints: dataArray2020,
+                dataPoints: dataArray2017,
+                xValueFormatString: "DD-MMM",
+            },
+            {
+                type: "spline",
+                indexLabelFontSize: 16,
+                name: "2018-2019",
+                showInLegend: true,
+                dataPoints: dataArray2018,
                 xValueFormatString: "DD-MMM",
             },
             {
@@ -286,10 +340,49 @@ function pushpinClicked(e) {
                 showInLegend: true,
                 dataPoints: dataArray2019,
                 xValueFormatString: "DD-MMM",
+            },
+            {
+                type: "spline",
+                indexLabelFontSize: 16,
+                name: "2020-2021",
+                showInLegend: true,
+                dataPoints: dataArray2020,
+                xValueFormatString: "DD-MMM",
             }
             ]
         });
+
+        // bar graph
+        var barGraph = new CanvasJS.Chart("barGraphContainer",
+        {
+            animationEnabled: true,
+            theme: "light2",
+            title: {
+                text: stationResponse.station_information.name
+            },
+            axisY: {
+                title: "Current Snow Depth",
+                suffix: " inches",
+                minimum: 0
+            },
+            axisX: {
+                title: "Year",
+            },
+            data: [{
+                type: "column",
+                dataPoints: [
+                    {x: 1, y: parseInt(current2015), label: "2015-2016" },
+                    {x: 2, y: parseInt(current2016), label: "2016-2017" },
+                    {x: 3, y: parseInt(current2017), label: "2017-2018" },
+                    {x: 4, y: parseInt(current2018), label: "2018-2019" },
+                    {x: 5, y: parseInt(current2019), label: "2019-2020" },
+                    {x: 6, y: parseInt(stationResponse.data[stationResponse.data.length - 1]["Snow Depth (in)"]), label: "2020-2021"}
+
+                ]
+            }]
+        });
         chart.render();
+        barGraph.render();
     })
 }
 

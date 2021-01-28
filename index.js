@@ -1,17 +1,36 @@
 var queryURL = "stations.json";
 var map;
 
+// checks if local storage is present and generates list if it is
+var savedPinList = JSON.parse(localStorage.getItem("clickedPins"));
+if (savedPinList =! null) {
+    generatePinList(savedPinList)
+}
+
+// generates list from local storage
+function generatePinList() {
+    savedPinList = JSON.parse(localStorage.getItem("clickedPins"))
+
+    $(".samplebutton").text(savedPinList[0].pin)
+    // add code here to generate list based on local storage
+}
+
 $.ajax({
     url: queryURL,
     method: "GET"
 }).then(function (response) {
     powderResponse = response;
 }).then(function GetMap() {
+    var navigationBarMode = Microsoft.Maps.NavigationBarMode;
     map = new Microsoft.Maps.Map('#myMap', {
+        showSearchBar: true,
+        navigationBarMode: navigationBarMode.square,
+        supportedMapTypes: [Microsoft.Maps.MapTypeId.road, Microsoft.Maps.MapTypeId.aerial]
     });
     // sets to false as default
     var isAboveAverage = false;
     var isBelowAverage = false;
+    var isAverage = false;
 
     // creates URL to pull from saved json files
     for (let i = 0; i < powderResponse.length; i++) {
@@ -39,52 +58,87 @@ $.ajax({
                 todaySnow = averageSnow.data[averageSnow.data.length - 1]["Snow Depth (in)"];
             }
             // compares yesterday snow to historical snow averages then calls setPin function to set color
-            if (todaySnow > totalSnow / numberOfInstances) {
+            var average = totalSnow / numberOfInstances;
+            var aboveAverage = average * 1.1;
+            var belowAverage = average * .9;
+            if (todaySnow > aboveAverage) {
                 isAboveAverage = true;
                 isBelowAverage = false;
-                setPin(isAboveAverage, isBelowAverage); 
+                isAverage = false;
+                setPin(isAboveAverage, isBelowAverage, isAverage); 
 
-            } else if (todaySnow < totalSnow / numberOfInstances) {
+            } else if (todaySnow < belowAverage) {
                 isBelowAverage = true;
                 isAboveAverage = false;
-                setPin(isAboveAverage, isBelowAverage); 
+                isAverage = false;
+                setPin(isAboveAverage, isBelowAverage, isAverage); 
+            } else {
+                isBelowAverage = false;
+                isAboveAverage = false;
+                isAverage = true;
+                setPin(isAboveAverage, isBelowAverage, isAverage);
             }
         })
 
         // sets pin color
-        function setPin(isAboveAverage, isBelowAverage) {
-            if (isAboveAverage === true) { //sets pin to green if above average
+        function setPin(isAboveAverage, isBelowAverage, isAverage) {
+            if (isAboveAverage === true) { 
                 var pin = new Microsoft.Maps.Pushpin({
                     latitude: powderResponse[i].location.lat,
                     longitude: powderResponse[i].location.lng,
                 },
                     {
-                        color: 'green'
+                        color: '#084593'
                     });
                 // meta data stored in each pin
                 pin.metadata = {
                     title: powderResponse[i].name,
                     elevation: powderResponse[i].elevation,
                     id: powderResponse[i].triplet,
+                    lat: powderResponse[i].location.lat,
+                    lng: powderResponse[i].location.lng
                 }
                 // adds event handler function to each pin
                 Microsoft.Maps.Events.addHandler(pin, 'click', pushpinClicked);
                 // pushes pin to map
                 map.entities.push(pin);
             }
-            else if (isBelowAverage === true) { //sets pin to red if below average
+            else if (isBelowAverage === true) { 
                 var pin = new Microsoft.Maps.Pushpin({
                     latitude: powderResponse[i].location.lat,
                     longitude: powderResponse[i].location.lng,
                 },
                     {
-                        color: 'red'
+                        color: '#C6DBEF'
                     });
                 // meta data stored in each pin
                 pin.metadata = {
                     title: powderResponse[i].name,
                     elevation: powderResponse[i].elevation,
                     id: powderResponse[i].triplet,
+                    lat: powderResponse[i].location.lat,
+                    lng: powderResponse[i].location.lng
+                }
+                // adds event handler function to each pin
+                Microsoft.Maps.Events.addHandler(pin, 'click', pushpinClicked);
+                // pushes pin to map
+                map.entities.push(pin);
+            }
+            else if (isAverage === true) { 
+                var pin = new Microsoft.Maps.Pushpin({
+                    latitude: powderResponse[i].location.lat,
+                    longitude: powderResponse[i].location.lng,
+                },
+                    {
+                        color: '#6BAED6'
+                    });
+                // meta data stored in each pin
+                pin.metadata = {
+                    title: powderResponse[i].name,
+                    elevation: powderResponse[i].elevation,
+                    id: powderResponse[i].triplet,
+                    lat: powderResponse[i].location.lat,
+                    lng: powderResponse[i].location.lng
                 }
                 // adds event handler function to each pin
                 Microsoft.Maps.Events.addHandler(pin, 'click', pushpinClicked);
@@ -95,8 +149,38 @@ $.ajax({
     }
 
 })
+
+// Sample of clicking button of saved pin and the map reacting to it
+$(".samplebutton").on("click", function(){
+    var savedCoordinates = JSON.parse(localStorage.getItem("clickedPins"));
+    var lat = savedCoordinates[0].lat;
+    var lng = savedCoordinates[0].lng;
+    map.setView({
+        center: new Microsoft.Maps.Location(lat, lng),
+        zoom: 15
+    })
+})
+
+
 // Event Listener
 function pushpinClicked(e) {
+    console.log(e.target.metadata.lat)
+
+    // Save to local storage then generate list
+    savedPinList = JSON.parse(localStorage.getItem("clickedPins"));
+    if (savedPinList != null) {
+        savedPinList.push({ pin: e.target.metadata.title, lat: e.target.metadata.lat, lng: e.target.metadata.lng});
+        localStorage.setItem("clickedPins", JSON.stringify(savedPinList));
+        console.log(savedPinList[0].pin)
+        generatePinList(savedPinList);
+    }
+    else {
+        savedPinList = ([{ pin: e.target.metadata.title, lat: e.target.metadata.lat, lng: e.target.metadata.lng}]);
+        localStorage.setItem("clickedPins", JSON.stringify(savedPinList));
+        generatePinList(savedPinList);
+    }
+    
+
     // Displaying text in DOM
     $(".name").text("name: " + e.target.metadata.title)
     $(".elevation").text("elevation: " + e.target.metadata.elevation)

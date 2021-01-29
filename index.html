@@ -1,36 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Bing Maps -->
     <script type='text/javascript'
-    src='https://www.bing.com/api/maps/mapcontrol?callback=initMap&key=AtAwsVjQXwKgbDm9UUf_BIPwFW_6qXJqk2VrKTtH4JB5rCzWCS2BW6cezpbLAYMf'></script>
+        src='https://www.bing.com/api/maps/mapcontrol?callback=initMap&key=AtAwsVjQXwKgbDm9UUf_BIPwFW_6qXJqk2VrKTtH4JB5rCzWCS2BW6cezpbLAYMf'></script>
     <!-- JQuery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <!-- momentJS -->
     <script type="text/javascript" src="https://momentjs.com/downloads/moment-with-locales.js"></script>
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
     <!-- CSS -->
-    <link rel="stylesheet" href="./style.css" />
+    <link rel="stylesheet" href="style.css">
 
     <title>Document</title>
 </head>
+
 <body>
-<div id="myMap" style='position:relative;width:600px;height:400px;'></div>
-<div class="name"></div>
-<div class="elevation"></div>
-<div class="id"></div>
-<div class="date"></div>
-<div class="snow-depth"></div>
-<div id="chartContainer" style="height: 370px; width: 100%;"></div>
-<div id="barGraphContainer" style="height: 370px; width: 100%;"></div>
-<button class="samplebutton"type="button">SAMPLE</button>
+    <nav>
+        <div class="nav-wrapper white">
+          <a href="#" class="center brand-logo blue-text"><img src="logo.jpg" width="200px"
+              height="200px" /></a>
+    
+          <!-- <a href="#" class="center brand-logo blue-text">Best Snow</a> -->
+          <ul id="nav-mobile" class="right hide-on-med-and-down">
+            <li class="blue waves-effect waves-light btn-large"><a href="">About</a></li>
+            <li class=" blue waves-effect waves-light btn-large"><a href="">Contact</a></li>
+    
+          </ul>
+        </div>
+      </nav>
+    <div id="myMap" style='position:relative;width:600px;height:400px;'></div>
+    <div class="name"></div>
+    <div class="elevation"></div>
+    <div class="id"></div>
+    <div class="date"></div>
+    <div class="snow-depth"></div>
+    <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+    <div id="barGraphContainer" style="height: 370px; width: 100%;"></div>
 
 
-
-<!-- CanvasJS -->
-<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
-<!-- Link to JavaSCript -->
-<script src="./index.js"></script>
+    <main>
+        <div class="container">
+    
+        </div>
+      </main>
+      <!-- footer -->
+      <footer class="page-footer blue lighten-3">
+        <div class="container">
+          <div class="row">
+            <div class="blue lighten-3 col l6 s12">
+              <h5>About Us</h5>
+              <p class="white-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum at lacus congue.</p>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum at lacus congue, suscipit elit nec,
+                tincidunt orci.</p>
+            </div>
+            <div class="blue lighten-3 col l4 offset-l2 s12">
+              <h5 class="white-text">Contact</h5>
+              <ul>
+                <li><a class="grey-text text-lighten-3" href="#">Email form</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="footer-copyright grey darken-4">
+          <div class="container center-align">&copy; 2021 Best Snow</div>
+        </div>
+      </footer>
+    <!-- CanvasJS -->
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+    <!-- Link to JavaSCript -->
+    <script src="./index.js"></script>
 </body>
+
 </html>

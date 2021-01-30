@@ -76,7 +76,7 @@ $(window).on("load", function() {
                         longitude: powderResponse[i].location.lng,
                     },
                         {
-                            icon: 'snowflakeBlue.png'
+                            icon: 'aboveAverage.png'
                         });
                     // meta data stored in each pin
                     pin.metadata = {
@@ -97,7 +97,7 @@ $(window).on("load", function() {
                         longitude: powderResponse[i].location.lng,
                     },
                         {
-                            icon: 'snowflakeRed.png'
+                            icon: 'belowAverage.png'
                         });
                     // meta data stored in each pin
                     pin.metadata = {
@@ -118,7 +118,7 @@ $(window).on("load", function() {
                         longitude: powderResponse[i].location.lng,
                     },
                         {
-                            icon: 'snowflakeYellow.png'
+                            icon: 'average.png'
                         });
                     // meta data stored in each pin
                     pin.metadata = {
@@ -312,12 +312,12 @@ $(window).on("load", function() {
                     text: stationResponse.station_information.name
                 },
                 axisY: {
-                    title: "Seasonal Snow Depth",
+                    title: "Snow depth on " + stationResponse.data[stationResponse.data.length -1].Date.slice(5),
                     suffix: " inches",
                     minimum: 0
                 },
                 axisX: {
-                    title: "Year",
+                    title: "Winter Season",
                 },
                 data: [{
                     type: "column",

@@ -2,25 +2,6 @@ $(window).on("load", function() {
     var queryURL = "stations.json";
     var map;
 
-    // checks if local storage is present and generates list if it is
-    var savedPinList = JSON.parse(localStorage.getItem("clickedPins"));
-    if (savedPinList =! null) {
-        generatePinList(savedPinList)
-    }
-
-    // generates list from local storage
-    function generatePinList() {
-        savedPinList = JSON.parse(localStorage.getItem("clickedPins"))
-
-        if (savedPinList === null) {
-            return
-        }
-        else {
-            $(".samplebutton").text(savedPinList[0].pin).css("color", savedPinList[0].color)
-            // add code here to generate list based on local storage
-        }
-    }
-
     $.ajax({
         url: queryURL,
         method: "GET"
@@ -29,10 +10,10 @@ $(window).on("load", function() {
     }).then(function GetMap() {
         var navigationBarMode = Microsoft.Maps.NavigationBarMode;
         map = new Microsoft.Maps.Map('#myMap', {
-            showSearchBar: true,
             navigationBarMode: navigationBarMode.square,
             supportedMapTypes: [Microsoft.Maps.MapTypeId.road, Microsoft.Maps.MapTypeId.aerial]
         });
+
         // sets to false as default
         var isAboveAverage = false;
         var isBelowAverage = false;
@@ -63,6 +44,7 @@ $(window).on("load", function() {
                 } else {
                     todaySnow = averageSnow.data[averageSnow.data.length - 1]["Snow Depth (in)"];
                 }
+
                 // compares yesterday snow to historical snow averages then calls setPin function to set color
                 var average = totalSnow / numberOfInstances;
                 var aboveAverage = average * 1.1;
@@ -94,7 +76,6 @@ $(window).on("load", function() {
                         longitude: powderResponse[i].location.lng,
                     },
                         {
-                            color: '#084593',
                             icon: 'snowflakeBlue.png'
                         });
                     // meta data stored in each pin
@@ -104,7 +85,6 @@ $(window).on("load", function() {
                         id: powderResponse[i].triplet,
                         lat: powderResponse[i].location.lat,
                         lng: powderResponse[i].location.lng,
-                        color: '#084593'
                     }
                     // adds event handler function to each pin
                     Microsoft.Maps.Events.addHandler(pin, 'click', pushpinClicked);
@@ -117,7 +97,6 @@ $(window).on("load", function() {
                         longitude: powderResponse[i].location.lng,
                     },
                         {
-                            color: '#C6DBEF',
                             icon: 'snowflakeRed.png'
                         });
                     // meta data stored in each pin
@@ -127,7 +106,6 @@ $(window).on("load", function() {
                         id: powderResponse[i].triplet,
                         lat: powderResponse[i].location.lat,
                         lng: powderResponse[i].location.lng,
-                        color: '#C6DBEF'
                     }
                     // adds event handler function to each pin
                     Microsoft.Maps.Events.addHandler(pin, 'click', pushpinClicked);
@@ -140,7 +118,6 @@ $(window).on("load", function() {
                         longitude: powderResponse[i].location.lng,
                     },
                         {
-                            color: '#6BAED6',
                             icon: 'snowflakeYellow.png'
                         });
                     // meta data stored in each pin
@@ -150,7 +127,6 @@ $(window).on("load", function() {
                         id: powderResponse[i].triplet,
                         lat: powderResponse[i].location.lat,
                         lng: powderResponse[i].location.lng,
-                        color: '#6BAED6'
                     }
                     // adds event handler function to each pin
                     Microsoft.Maps.Events.addHandler(pin, 'click', pushpinClicked);
@@ -162,39 +138,11 @@ $(window).on("load", function() {
 
     })
 
-    // Sample of clicking button of saved pin and the map reacting to it
-    $(".samplebutton").on("click", function(){
-        var savedCoordinates = JSON.parse(localStorage.getItem("clickedPins"));
-        var lat = savedCoordinates[0].lat;
-        var lng = savedCoordinates[0].lng;
-        map.setView({
-            center: new Microsoft.Maps.Location(lat, lng),
-            zoom: 15
-        })
-    })
-
-
     // Event Listener
     function pushpinClicked(e) {
-
-        // Save to local storage then generate list
-        savedPinList = JSON.parse(localStorage.getItem("clickedPins"));
-        if (savedPinList != null) {
-            savedPinList.push({ pin: e.target.metadata.title, lat: e.target.metadata.lat, lng: e.target.metadata.lng, color: e.target.metadata.color});
-            localStorage.setItem("clickedPins", JSON.stringify(savedPinList));
-            generatePinList(savedPinList);
-        }
-        else {
-            savedPinList = ([{ pin: e.target.metadata.title, lat: e.target.metadata.lat, lng: e.target.metadata.lng, color: e.target.metadata.color}]);
-            localStorage.setItem("clickedPins", JSON.stringify(savedPinList));
-            generatePinList(savedPinList);
-        }
-        
-
         // Displaying text in DOM
         $(".name").text("name: " + e.target.metadata.title)
         $(".elevation").text("elevation: " + e.target.metadata.elevation)
-        $(".id").text("ID: " + e.target.id)
 
         // API call for station pin that was clicked
         var snowURL = "data/input" + e.target.metadata.title + ".json"
@@ -218,7 +166,6 @@ $(window).on("load", function() {
             var current2017 = 0;
             var current2018 = 0;
             var current2019 = 0;
-            var current2020 = 0;
 
             for (let i = 0; i < stationResponse.data.length; i++) {
                 if (moment(stationResponse.data[i].Date).isBetween('2015-10-01', '2016-06-30')) {
@@ -295,7 +242,7 @@ $(window).on("load", function() {
                     text: stationResponse.station_information.name
                 },
                 axisY: {
-                    title: "Current Snow Depth",
+                    title: "Seasonal Snow Depth",
                     suffix: " inches"
                 },
                 axisX: {
@@ -365,7 +312,7 @@ $(window).on("load", function() {
                     text: stationResponse.station_information.name
                 },
                 axisY: {
-                    title: "Current Snow Depth",
+                    title: "Seasonal Snow Depth",
                     suffix: " inches",
                     minimum: 0
                 },

@@ -94,7 +94,8 @@ $(window).on("load", function() {
                         longitude: powderResponse[i].location.lng,
                     },
                         {
-                            color: '#084593'
+                            color: '#084593',
+                            icon: 'snowflakeBlue.png'
                         });
                     // meta data stored in each pin
                     pin.metadata = {
@@ -116,7 +117,8 @@ $(window).on("load", function() {
                         longitude: powderResponse[i].location.lng,
                     },
                         {
-                            color: '#C6DBEF'
+                            color: '#C6DBEF',
+                            icon: 'snowflakeRed.png'
                         });
                     // meta data stored in each pin
                     pin.metadata = {
@@ -138,7 +140,8 @@ $(window).on("load", function() {
                         longitude: powderResponse[i].location.lng,
                     },
                         {
-                            color: '#6BAED6'
+                            color: '#6BAED6',
+                            icon: 'snowflakeYellow.png'
                         });
                     // meta data stored in each pin
                     pin.metadata = {
@@ -387,3 +390,4 @@ $(window).on("load", function() {
         })
     }
 })
+

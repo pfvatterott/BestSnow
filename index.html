@@ -4,87 +4,131 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    
     <!-- Bing Maps -->
     <script type='text/javascript'
         src='https://www.bing.com/api/maps/mapcontrol?callback=initMap&key=AtAwsVjQXwKgbDm9UUf_BIPwFW_6qXJqk2VrKTtH4JB5rCzWCS2BW6cezpbLAYMf'></script>
+
     <!-- JQuery -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
     <!-- momentJS -->
     <script type="text/javascript" src="https://momentjs.com/downloads/moment-with-locales.js"></script>
-    <!--Import Google Icon Font-->
-    Map-pins-change-color-depending-on-averages
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- Import Google Icon Font -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+
     <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+
     <!-- CSS -->
     <link rel="stylesheet" href="style.css">
 
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <!-- Compiled and minified CSS -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
-  <!-- CSS -->
-  <link rel="stylesheet" href="style.css">
-  main
+    <!-- Font Awesome -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
 
-    <title>Document</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
+    integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous" />
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="BestSnowLogoTeal.png" type="image/x-icon" />
+
+
+    <title>Best Snow - HOME | Snow Data from the Western US</title>
 </head>
 
 <body>
-    <nav>
-        <div class="nav-wrapper white">
-          <a href="#" class="center brand-logo blue-text"><img src="logo.jpg" width="200px"
-              height="200px" /></a>
-    
-          <!-- <a href="#" class="center brand-logo blue-text">Best Snow</a> -->
-          <ul id="nav-mobile" class="right hide-on-med-and-down">
-            <li class="blue waves-effect waves-light btn-large"><a href="">About</a></li>
-            <li class=" blue waves-effect waves-light btn-large"><a href="">Contact</a></li>
-    
-          </ul>
-        </div>
-      </nav>
-    <div id="myMap" style='position:relative;width:600px;height:400px;'></div>
-    <div class="name"></div>
-    <div class="elevation"></div>
-    <div class="id"></div>
-    <div class="date"></div>
-    <div class="snow-depth"></div>
-    <div id="chartContainer" style="height: 370px; width: 100%;"></div>
-  Map-pins-change-color-depending-on-averages
-    <div id="barGraphContainer" style="height: 370px; width: 100%;"></div>
-
- main
+    <!-- Navigation Bar -->
+    <header>
+        <nav class="nav-wraper yellow darken-2">
+            <div class="container">
+                <a href="index2.html" class="brand-logo">
+                    <img src="BestSnowLogo.png" width="150" alt="Best Snow Logo" /></a>
+                <a href="#" class="sidenav-trigger" data-target="mobile-links">
+                    <i class="material-icons">menu</i>
+                </a>
+                <ul class="right hide-on-med-and-down">
+                    <li><a class="flow-text black-text" id="logoname" href="index.html">Best Snow</a></li>
+                    <li><a class=" black-text" href="about.html">About</a></li>
+                    <li><a class="black-text" href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+        </nav>
+        <ul class="sidenav" id="mobile-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </header>
 
 
+    <!-- Main -->
     <main>
-        <div class="container">
-    
-        </div>
-      </main>
-      <!-- footer -->
-      <footer class="page-footer blue lighten-3">
-        <div class="container">
-          <div class="row">
-            <div class="blue lighten-3 col l6 s12">
-              <h5>About Us</h5>
-              <p class="white-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum at lacus congue.</p>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum at lacus congue, suscipit elit nec,
-                tincidunt orci.</p>
+        <div class="parallax-container">
+            <div class="parallax">
+                <img src="backcountry.jpg" alt="snow mountains" class="responsive-img" />
             </div>
-            <div class="blue lighten-3 col l4 offset-l2 s12">
-              <h5 class="white-text">Contact</h5>
-              <ul>
-                <li><a class="grey-text text-lighten-3" href="#">Email form</a></li>
-              </ul>
+        </div>
+        <div class="section white">
+            <div class="container">
+                <div id="myMap" style='position:relative;height:500px;' class="z-depth-3"></div>
+                <div class="name"></div>
+                <div class="elevation"></div>
+                <!-- <div class="id"></div> -->
+                <div class="date"></div>
+                <div class="snow-depth"></div>
+                <div id="chartContainer" class="hide-on-med-and-down" style="height: 370px; width: 100%;"></div>
+                <div id="barGraphContainer"  style="height: 370px; width: 100%;"></div>
             </div>
-          </div>
         </div>
-        <div class="footer-copyright grey darken-4">
-          <div class="container center-align">&copy; 2021 Best Snow</div>
+        <div class="parallax-container">
+            <div class="parallax"><img src="backcountry3.jpg" /></div>
         </div>
-      </footer>
+
+
+        <!-- footer -->
+        <footer class="page-footer yellow darken-2">
+            <div class="container">
+                <div class="row">
+                    <div class="yellow darken-2 col l6 s12">
+                        <h5>About Us</h5>
+                        <p class="white-text">Best Snow is a site built for snow enthusiasts by snow enthusiasts.
+                    </div>
+                    <div class="yellow darken-2 col l4 offset-l2 s12">
+                        <h5 class="white-text">Contact</h5>
+                        <a href="contact.bestsnow@gmail.com" class="btn-floating btn-small blue darken-2">
+                            <i class="fa fa-envelope" aria-hidden="true"></i>
+                        </a>
+                        <a href="https://www.instagram.com/best.x.snow/" class="btn-floating btn-small orange darken-2">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="btn-floating btn-small">
+                            <i class="fab fa-facebook-square"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-copyright grey darken-4">
+                <div class="container center-align">&copy; 2021 Best Snow</div>
+            </div>
+        </footer>
+    </main>
+
+
     <!-- CanvasJS -->
     <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $(".sidenav").sidenav();
+            $(".parallax").parallax();
+        });
+    </script>
     <!-- Link to JavaSCript -->
     <script src="./index.js"></script>
 </body>

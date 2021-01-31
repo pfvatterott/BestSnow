@@ -151,7 +151,17 @@ $(window).on("load", function() {
             method: "GET"
         }).then(function (stationResponse) {
             $(".date").text("Date: " + moment().format("YYYY-MM-DD"));
-            $(".snow-depth").text("Snow Depth: " + stationResponse.data[stationResponse.data.length - 1]["Snow Depth (in)"] + " inches");
+            // Sometimes snow depth is returned null. This will return the day before if that's the case
+            if (stationResponse.data[stationResponse.data.length - 1]["Snow Depth (in)"] == null) {
+                if (stationResponse.data[stationResponse.data.length - 2]["Snow Depth (in)"] == null) {
+                    $(".snow-depth").text("Snow Depth: 0 inches");
+                }
+                else {
+                    $(".snow-depth").text("Snow Depth: " + stationResponse.data[stationResponse.data.length - 2]["Snow Depth (in)"] + " inches");
+                }
+            } else {
+                $(".snow-depth").text("Snow Depth: " + stationResponse.data[stationResponse.data.length - 1]["Snow Depth (in)"] + " inches");
+            }
 
 
             // Creates data arrays for charts

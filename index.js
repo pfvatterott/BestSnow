@@ -155,9 +155,6 @@ $(window).on("load", function() {
 
     // Event Listener
     function pushpinClicked(e) {
-        // Displaying text in DOM
-        $(".name").text("name: " + e.target.metadata.title)
-        $(".elevation").text("elevation: " + e.target.metadata.elevation)
 
         // API call for station pin that was clicked
         var snowURL = "data/input" + e.target.metadata.title + ".json"
@@ -165,20 +162,7 @@ $(window).on("load", function() {
             url: snowURL,
             method: "GET"
         }).then(function (stationResponse) {
-            $(".date").text("Date: " + moment().format("YYYY-MM-DD"));
-            // Sometimes snow depth is returned null. This will return the day before if that's the case
-            if (stationResponse.data[stationResponse.data.length - 1]["Snow Depth (in)"] == null) {
-                if (stationResponse.data[stationResponse.data.length - 2]["Snow Depth (in)"] == null) {
-                    $(".snow-depth").text("Snow Depth: 0 inches");
-                }
-                else {
-                    $(".snow-depth").text("Snow Depth: " + stationResponse.data[stationResponse.data.length - 2]["Snow Depth (in)"] + " inches");
-                }
-            } else {
-                $(".snow-depth").text("Snow Depth: " + stationResponse.data[stationResponse.data.length - 1]["Snow Depth (in)"] + " inches");
-            }
-
-
+            
             // Creates data arrays for charts
             var dataArray2015 = [];
             var dataArray2016 = [];
@@ -259,13 +243,28 @@ $(window).on("load", function() {
                 };
             }
 
+            var currentSnowDepth = 0;
+            if (stationResponse.data[stationResponse.data.length - 1]["Snow Depth (in)"] == null) {
+                if (stationResponse.data[stationResponse.data.length - 2]["Snow Depth (in)"] == null) {
+                    currentSnowDepth = "0";
+                }
+                else {
+                    currentSnowDepth = stationResponse.data[stationResponse.data.length - 2]["Snow Depth (in)"];
+                }
+            } else {
+                    currentSnowDepth = stationResponse.data[stationResponse.data.length - 1]["Snow Depth (in)"];
+            }
+
             //Create Line Chart
             var chart = new CanvasJS.Chart("chartContainer", {
                 animationEnabled: true,
                 theme: "light2",
                 title: {
-                    text: stationResponse.station_information.name
+                    text: stationResponse.station_information.name + " - Elevation: " + e.target.metadata.elevation + " ft"
                 },
+                subtitles:[{
+                    text: "Current snow depth: " + currentSnowDepth + " inches"
+                }],
                 axisY: {
                     title: "Seasonal Snow Depth",
                     suffix: " inches"
@@ -334,7 +333,7 @@ $(window).on("load", function() {
                 animationEnabled: true,
                 theme: "light2",
                 title: {
-                    text: stationResponse.station_information.name
+                    text: stationResponse.station_information.name + " - Elevation: " + e.target.metadata.elevation
                 },
                 axisY: {
                     title: "Snow depth on " + stationResponse.data[stationResponse.data.length -1].Date.slice(5),

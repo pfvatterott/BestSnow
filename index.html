@@ -2,13 +2,13 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
     <!-- Bing Maps -->
-    <script type='text/javascript'
-        src='https://www.bing.com/api/maps/mapcontrol?callback=initMap&key=AtAwsVjQXwKgbDm9UUf_BIPwFW_6qXJqk2VrKTtH4JB5rCzWCS2BW6cezpbLAYMf'></script>
+    <script type="text/javascript"
+        src="https://www.bing.com/api/maps/mapcontrol?callback=initMap&key=AtAwsVjQXwKgbDm9UUf_BIPwFW_6qXJqk2VrKTtH4JB5rCzWCS2BW6cezpbLAYMf"></script>
 
     <!-- JQuery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -20,21 +20,21 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
 
     <!-- Compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css" />
 
     <!-- CSS -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" />
 
     <!-- Font Awesome -->
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet" />
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
-    integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous" />
+        integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous" />
 
     <!-- Favicon -->
-    <link rel="shortcut icon" href="BestSnowLogoTeal.png" type="image/x-icon" />
-
+    <link rel="shortcut icon" href="BestSnowLogo.png" type="image/x-icon" />
 
     <title>Best Snow - HOME | Snow Data from the Western US</title>
 </head>
@@ -49,62 +49,110 @@
                 <a href="#" class="sidenav-trigger" data-target="mobile-links">
                     <i class="material-icons">menu</i>
                 </a>
-                <ul class="right hide-on-med-and-down">
-                    <li><a class="flow-text black-text" id="logoname" href="index.html">Best Snow</a></li>
-                    <li><a class=" black-text" href="about.html">About</a></li>
+                <ul class="hide-on-med-and-down right">
+                    <li>
+                        <a class="flow-text" id="logoname" href="index.html">Best Snow</a>
+                    </li>
+                    <li><a class="black-text" href="about.html">About</a></li>
                     <li><a class="black-text" href="contact.html">Contact</a></li>
                 </ul>
             </div>
+            <ul class="sidenav yellow darken-2" id="mobile-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
         </nav>
-        <ul class="sidenav" id="mobile-links">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="contact.html">Contact</a></li>
-        </ul>
     </header>
-
 
     <!-- Main -->
     <main>
+
+        <!-- Parallax Image -->
         <div class="parallax-container">
             <div class="parallax">
                 <img src="backcountry.jpg" alt="snow mountains" class="responsive-img" />
             </div>
         </div>
-        <div class="section white">
-            <div class="container">
-                <div id="myMap" style='position:relative;height:500px;' class="z-depth-3"></div>
-                <div class="name"></div>
-                <div class="elevation"></div>
-                <!-- <div class="id"></div> -->
-                <div class="date"></div>
-                <div class="snow-depth"></div>
-                <div id="chartContainer" class="hide-on-med-and-down" style="height: 370px; width: 100%;"></div>
-                <div id="barGraphContainer"  style="height: 370px; width: 100%;"></div>
+        <div class="container">
+
+
+            <div class="row">
+                <div class="section white">
+                    <p class="center flow-text">
+                        FInd the
+                        <span id="bestsnowfont" class="bestsnowcolor" class="logoname">Best Snow</span> in the
+                        west!
+                    </p>
+                </div>
             </div>
+
+            <!-- Snow Scale Images & Explanation -->
+            <div class="row" id="bestsnowfont">
+                <div class="col s12 l4 flow-text">
+                    <img src="belowAverage.png" alt="light blue snowflake" />
+                    <span id="">= Not great</span>
+                </div>
+                <div class="col s12 l4 flow-text">
+                    <img src="average.png" alt="light blue snowflake" /> = Better
+                </div>
+                <div class="col s12 l4 flow-text">
+                    <img src="aboveAverage.png" alt="light blue snowflake" /> = Best
+                </div>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="row">
+                <div class="col s12 l8 offset-l2">
+                    <div class="nav-wrapper">
+                        <form class="z-depth-1">
+                            <div class="input-field">
+                                <input id="search" type="search" required>
+                                <label class="label-icon" for="search"><i class="material-icons">search</i></label>
+                                <i class="material-icons">close</i>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Map & Graphs -->
+            <div id="myMap" style="position: relative; height: 500px" class="z-depth-3"></div>
+            <div class="name"></div>
+            <div class="elevation"></div>
+            <div class="date"></div>
+            <div class="snow-depth"></div>
+            <div id="chartContainer" class="hide-on-med-and-down" style="height: 370px; width: 100%"></div>
+            <br />
+            <div id="barGraphContainer" style="height: 370px; width: 100%"></div>
         </div>
+
+        <!-- Parallax Image -->
         <div class="parallax-container">
             <div class="parallax"><img src="backcountry3.jpg" /></div>
         </div>
-
 
         <!-- footer -->
         <footer class="page-footer yellow darken-2">
             <div class="container">
                 <div class="row">
                     <div class="yellow darken-2 col l6 s12">
-                        <h5 class="black-text" id="bestsnow">About Us</h5>
-                        <p class="white-text">Best Snow is a site built for snow enthusiasts by snow enthusiasts.
+                        <h5 class="black-text" id="bestsnowfont">About Us</h5>
+                        <p class="white-text">
+                            Best Snow is a site built for snow enthusiasts by snow
+                            enthusiasts.
+                        </p>
                     </div>
+
                     <div class="yellow darken-2 col l4 offset-l2 s12">
-                        <h5 class="black-text" id="bestsnow">Contact</h5>
-                        <a href="contact.bestsnow@gmail.com" class="btn-floating btn-small blue darken-2">
+                        <h5 class="black-text" id="bestsnowfont">Contact</h5>
+                        <a href="contact.bestsnow@gmail.com" class="btn-floating btn-small black">
                             <i class="fa fa-envelope" aria-hidden="true"></i>
                         </a>
-                        <a href="https://www.instagram.com/best.x.snow/" class="btn-floating btn-small orange darken-2">
+                        <a href="https://www.instagram.com/best.x.snow/" class="btn-floating btn-small pink">
                             <i class="fab fa-instagram"></i>
                         </a>
-                        <a href="https://www.facebook.com/best.snow.12/" class="btn-floating btn-small">
+                        <a href="https://www.facebook.com/best.snow.12/" class="btn-floating btn-small blue darken-2">
                             <i class="fab fa-facebook-square"></i>
                         </a>
                     </div>
@@ -115,7 +163,6 @@
             </div>
         </footer>
     </main>
-
 
     <!-- CanvasJS -->
     <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>

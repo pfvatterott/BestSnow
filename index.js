@@ -14,6 +14,16 @@ $(window).on("load", function() {
             supportedMapTypes: [Microsoft.Maps.MapTypeId.road, Microsoft.Maps.MapTypeId.aerial]
         });
 
+        // Search bar functionality
+        Microsoft.Maps.loadModule('Microsoft.Maps.AutoSuggest', function () {
+            var manager = new Microsoft.Maps.AutosuggestManager({ map: map });
+            manager.attachAutosuggest('#search', '.input-field', suggestionSelected);
+        });
+        
+        function suggestionSelected(result) {
+            map.setView({ bounds: result.bestView });
+        }
+
         // sets to false as default
         var isAboveAverage = false;
         var isBelowAverage = false;
@@ -138,6 +148,11 @@ $(window).on("load", function() {
 
     })
 
+    // Searchbar Event listener
+    $(".searchBarX").on("click", function() {
+        $("#search").val("");
+    })
+
     // Event Listener
     function pushpinClicked(e) {
         // Displaying text in DOM
@@ -151,7 +166,17 @@ $(window).on("load", function() {
             method: "GET"
         }).then(function (stationResponse) {
             $(".date").text("Date: " + moment().format("YYYY-MM-DD"));
-            $(".snow-depth").text("Snow Depth: " + stationResponse.data[stationResponse.data.length - 1]["Snow Depth (in)"] + " inches");
+            // Sometimes snow depth is returned null. This will return the day before if that's the case
+            if (stationResponse.data[stationResponse.data.length - 1]["Snow Depth (in)"] == null) {
+                if (stationResponse.data[stationResponse.data.length - 2]["Snow Depth (in)"] == null) {
+                    $(".snow-depth").text("Snow Depth: 0 inches");
+                }
+                else {
+                    $(".snow-depth").text("Snow Depth: " + stationResponse.data[stationResponse.data.length - 2]["Snow Depth (in)"] + " inches");
+                }
+            } else {
+                $(".snow-depth").text("Snow Depth: " + stationResponse.data[stationResponse.data.length - 1]["Snow Depth (in)"] + " inches");
+            }
 
 
             // Creates data arrays for charts

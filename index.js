@@ -14,6 +14,11 @@ $(window).on("load", function() {
             supportedMapTypes: [Microsoft.Maps.MapTypeId.road, Microsoft.Maps.MapTypeId.aerial]
         });
 
+        // Sets zoom level at startup
+        map.setView({
+            zoom: 6
+        })
+
         // Search bar functionality
         Microsoft.Maps.loadModule('Microsoft.Maps.AutoSuggest', function () {
             var manager = new Microsoft.Maps.AutosuggestManager({ map: map });

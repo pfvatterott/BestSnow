@@ -1,5 +1,5 @@
 <p align="center">
- ![logo](/imgs/BestSnowLogo.png)
+<img src="./img/BestSnowLogo.png">
 </p>
 
 # Best Snow

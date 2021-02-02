@@ -91,7 +91,7 @@ $(window).on("load", function() {
                         longitude: powderResponse[i].location.lng,
                     },
                         {
-                            icon: 'aboveAverage.png'
+                            icon: './img/aboveAverage.png'
                         });
                     // meta data stored in each pin
                     pin.metadata = {
@@ -112,7 +112,7 @@ $(window).on("load", function() {
                         longitude: powderResponse[i].location.lng,
                     },
                         {
-                            icon: 'belowAverage.png'
+                            icon: './img/belowAverage.png'
                         });
                     // meta data stored in each pin
                     pin.metadata = {
@@ -133,7 +133,7 @@ $(window).on("load", function() {
                         longitude: powderResponse[i].location.lng,
                     },
                         {
-                            icon: 'average.png'
+                            icon: './img/average.png'
                         });
                     // meta data stored in each pin
                     pin.metadata = {

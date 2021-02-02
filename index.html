@@ -74,94 +74,136 @@
                 <img src="backcountry.jpg" alt="snow mountains" class="responsive-img" />
             </div>
         </div>
+
+        <!-- Site Into Info -->
         <div class="container">
-
-
             <div class="row">
-                <div class="section white">
-                    <p class="center flow-text">
-                        FInd the
-                        <span id="bestsnowfont" class="bestsnowcolor" class="logoname">Best Snow</span> in the
-                        west!
-                    </p>
+                <div class="col s12 l12">
+                    <h2 class="center-align bestsnowcolor" id="bestsnowfont">Best Snow</h2>
                 </div>
             </div>
-
-            <!-- Snow Scale Images & Explanation -->
-            <div class="row" id="bestsnowfont">
-                <div class="col s12 l4 flow-text">
-                    <img src="belowAverage.png" alt="light blue snowflake" />
-                    <span id="">= Not great</span>
-                </div>
-                <div class="col s12 l4 flow-text">
-                    <img src="average.png" alt="light blue snowflake" /> = Better
-                </div>
-                <div class="col s12 l4 flow-text">
-                    <img src="aboveAverage.png" alt="light blue snowflake" /> = Best
+            <div class="row">
+                <div class="col s12 l12">
+                    <h5 class="center-align">Searching for the best snowpack for your next outdoor adventure?</h5>
+                    <h5 class="center-align">Look no further! </h5>
                 </div>
             </div>
-
-            <!-- Search Bar -->
             <div class="row">
                 <div class="col s12 l8 offset-l2">
-                    <div class="nav-wrapper">
-                        <form class="z-depth-1">
-                            <div class="input-field">
-                                <input id="search" type="search" required>
-                                <label class="label-icon" for="search"><i class="material-icons">search</i></label>
-                                <i class="material-icons searchBarX">close</i>
-                            </div>
-                        </form>
-                    </div>
+                    <ol id="bestsnowfont">
+                        <li>
+                            Search by City
+                        </li>
+                        <li>
+                            See weather station locations on map
+                        </li>
+                        <li>
+                            See if snowpack (snow depth) is low, average, or above-average
+                        </li>
+                        <li>
+                            See how todays snowpack compares to past seasons
+                        </li>
+                    </ol>
                 </div>
             </div>
 
-            <!-- Map & Graphs -->
-            <div id="myMap" style="position: relative; height: 500px" class="z-depth-3"></div>
-            <div class="name"></div>
-            <div class="elevation"></div>
-            <div class="date"></div>
-            <div class="snow-depth"></div>
-            <div id="chartContainer" class="hide-on-med-and-down" style="height: 370px; width: 100%"></div>
-            <br />
-            <div id="barGraphContainer" style="height: 370px; width: 100%"></div>
-        </div>
+            <div class="row">
+                <p class="center flow-text">
+                    Find the
+                    <span id="bestsnowfont" class="bestsnowcolor" class="logoname">Best Snow</span>
+                    in the west!
+                </p>
 
-        <!-- Parallax Image -->
-        <div class="parallax-container">
-            <div class="parallax"><img src="backcountry3.jpg" /></div>
-        </div>
 
-        <!-- footer -->
-        <footer class="page-footer yellow darken-2">
-            <div class="container">
+
+
+                <!-- Search Bar -->
                 <div class="row">
-                    <div class="yellow darken-2 col l6 s12">
-                        <h5 class="black-text" id="bestsnowfont">About Us</h5>
-                        <p class="white-text">
-                            Best Snow is a site built for snow enthusiasts by snow
-                            enthusiasts.
-                        </p>
-                    </div>
-
-                    <div class="yellow darken-2 col l4 offset-l2 s12">
-                        <h5 class="black-text" id="bestsnowfont">Contact</h5>
-                        <a href="contact.bestsnow@gmail.com" class="btn-floating btn-small black">
-                            <i class="fa fa-envelope" aria-hidden="true"></i>
-                        </a>
-                        <a href="https://www.instagram.com/best.x.snow/" class="btn-floating btn-small pink">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="https://www.facebook.com/best.snow.12/" class="btn-floating btn-small blue darken-2">
-                            <i class="fab fa-facebook-square"></i>
-                        </a>
+                    <div class="col s12 l8 offset-l2">
+                        <div class="nav-wrapper">
+                            <form class="z-depth-1">
+                                <div class="input-field">
+                                    <input id="search" type="search" placeholder="search by City / State" required />
+                                    <label class="label-icon" for="search"><i class="material-icons">search</i></label>
+                                    <i class="material-icons searchBarX">close</i>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
+
+
+                <!-- Map -->
+                <div id="myMap" style="position: relative; height: 500px" class="z-depth-3"></div>
+
+                <!-- Snow Scale Images & Explanation -->
+                <div class="row" id="bestsnowfont">
+                    <div class="col s12 l4 flow-text">
+                        <img src="belowAverage.png" alt="light blue snowflake" />
+                        <span id="">= Not great</span>
+                    </div>
+                    <div class="col s12 l4 flow-text">
+                        <img src="average.png" alt="light blue snowflake" /> = Better
+                    </div>
+                    <div class="col s12 l4 flow-text">
+                        <img src="aboveAverage.png" alt="light blue snowflake" /> = Best
+                    </div>
+                </div>
+
+                <!-- SNOWTEL Data & Graphs -->
+                <div class="name"></div>
+                <div class="elevation"></div>
+                <div class="date"></div>
+                <div class="snow-depth"></div>
+                <div id="chartContainer" class="hide-on-med-and-down" style="height: 370px; width: 100%"></div>
+                <br />
+                <div id="barGraphContainer" style="height: 370px; width: 100%"></div>
             </div>
-            <div class="footer-copyright grey darken-4">
-                <div class="container center-align">&copy; 2021 Best Snow</div>
+        </div>
+
+            <!-- Parallax Image -->
+            <div class="parallax-container">
+                <div class="parallax"><img src="backcountry3.jpg" /></div>
             </div>
-        </footer>
+        
+    
+            <!-- footer -->
+            <footer class="page-footer yellow darken-2">
+                <div class="container">
+                    <div class="row">
+                        <div class="yellow darken-2 col l6 s12">
+                            <a href="about.html">
+                                <h5 class="black-text" id="bestsnowfont">About Us</h5>
+                                <p class="white-text">
+                                    Best Snow is a site built for snow enthusiasts by snow
+                                    enthusiasts...
+                                </p>
+                            </a>
+                        </div>
+
+                        <div class="yellow darken-2 col l4 offset-l2 s12">
+                            <a href="contact.html">
+                                <h5 class="black-text" id="bestsnowfont">Contact</h5>
+                            </a>
+                            <a href="mailto:contact.bestsnow@gmail.com" target="_blank"
+                                class="btn-floating btn-small black">
+                                <i class="fa fa-envelope" aria-hidden="true"></i>
+                            </a>
+                            <a href="https://www.instagram.com/best.x.snow/" target="_blank"
+                                class="btn-floating btn-small pink">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            <a href="https://www.facebook.com/best.snow.12/" target="_blank"
+                                class="btn-floating btn-small blue darken-2">
+                                <i class="fab fa-facebook-square"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-copyright grey darken-4">
+                    <div class="container center-align">&copy; 2021 Best Snow</div>
+                </div>
+            </footer>
     </main>
 
     <!-- CanvasJS -->

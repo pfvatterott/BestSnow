@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./BestSnowLogo.png">
+ ![logo](/imgs/BestSnowLogo.png)
 </p>
 
 # Best Snow
@@ -25,9 +25,11 @@ When a user initiates the webpage, they can click on any snowflake on the map an
 [Click to access Best Snow](https://pfvatterott.github.io/Project1/)
 
 ## Screenshots
+![screenshot](/imgs/readme-screenshot1.png)
+![site in action](/imgs/readme-screenshot2.png)
+![graphs](/imgs/readme-screenshot3.png)
 
 
-PUT SCREENSHOTS HERE
 
 ## Authors
 

@@ -22,7 +22,7 @@ When a user initiates the webpage, they can click on any snowflake on the map an
 ![tech stack](./img/html-css-js.png)
 ## Link to Site
 
-[Click to access Best Snow](https://pfvatterott.github.io/Project1/)
+[Click to access Best Snow](https://pfvatterott.github.io/BestSnow/)
 
 ## Screenshots
 ![screenshot](./img/readme-screenshot1.png)
